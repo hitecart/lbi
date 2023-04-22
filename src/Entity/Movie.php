@@ -90,6 +90,12 @@ class Movie
     private $type = array();
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read_movie","read_movie_details","read_people_details"})
+     */
+    private $posterUrl;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -215,6 +221,26 @@ class Movie
     public function setType(\Doctrine\Common\Collections\Collection $type)
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of posterUrl
+     */
+    public function getPosterUrl()
+    {
+        return $this->posterUrl;
+    }
+
+    /**
+     * Set the value of posterUrl
+     *
+     * @return  self
+     */
+    public function setPosterUrl($posterUrl)
+    {
+        $this->posterUrl = $posterUrl;
 
         return $this;
     }
