@@ -1,8 +1,8 @@
 security:
+    enable_authenticator_manager: true
     encoders:
         App\Entity\User:
             algorithm: auto
-    enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -17,9 +17,38 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            lazy: true
-            #provider: users_in_memory
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        users:
+            pattern:   ^/api/users
+            methods: [PUT,PATH,DELETE]
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        movies:
+            pattern:   ^/api/movies
+            methods: [POST,PUT,PATH,DELETE]
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        people:
+            pattern:   ^/api/people
+            methods: [POST,PUT,PATH,DELETE]
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -32,6 +61,9 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/users, roles: IS_AUTENTICATED_FULLY, methods: [PUT, PATCH, DELETE] } 
+        - { path: ^/api/movies, roles: IS_AUTENTICATED_FULLY, methods: [POST, PUT, PATCH, DELETE] }
+        - { path: ^/api/people, roles: IS_AUTENTICATED_FULLY, methods: [POST, PUT, PATCH, DELETE] }
 
 when@test:
     security:

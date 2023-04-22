@@ -14,8 +14,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  * collectionOperations={
  *  "get"={
- *       "normalization_context"={"groups"={"read_movie"},"post"}
- *    }
+ *       "normalization_context"={"groups"={"read_movie"}}
+ *    },
+ * "post"
  * },
  * itemOperations={
  *   "get"={

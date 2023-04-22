@@ -19,8 +19,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ApiResource(
  * collectionOperations={
  *  "get"={
- *       "normalization_context"={"groups"={"read_user"},"post"}
- *    }
+ *       "normalization_context"={"groups"={"read_user"}}
+ *    },"post"
  * },
  * itemOperations={
  *  "get"={
